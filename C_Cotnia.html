@@ -35,38 +35,6 @@
             margin-top: 20px;
         }
     </style>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-     <style>
-         body {
-             text-align: center;
-         }
-         .container {
-             max-width: 600px;
-             margin: auto;
-         }
-     </style>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.1.0/docx.min.js"></script>
-      <style>
-          body {
-              text-align: center;
-              background-color: #f5f5f5;
-              font-family: 'Arial', sans-serif;
-          }
-          .container {
-              max-width: 600px;
-              margin: auto;
-              background: white;
-              padding: 20px;
-              border-radius: 10px;
-              box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-          }
-          h1 {
-              color: #2C3E50;
-          }
-      </style>
 </head>
 <body>
     <div class="container mt-5 text-center">
@@ -98,6 +66,9 @@
     <script>
         const { jsPDF } = window.jspdf;
         
+        // Lista de cédulas permitidas
+        const allowedCedulas = ["30345198", "16053251", "1140421850","32288885","39212218","71932676","22228977","1128386111"];  // Agrega las cédulas permitidas aquí
+        
         function generateValidationCode() {
             return 'TIC-' + Math.random().toString(36).substr(2, 9).toUpperCase();
         }
@@ -117,6 +88,12 @@
             
             if (name === "" || id === "") {
                 alert("Por favor, ingrese todos los datos");
+                return;
+            }
+            
+            // Validar que la cédula esté en la lista permitida
+            if (!allowedCedulas.includes(id)) {
+                alert("La cédula ingresada no está permitida para descargar el certificado. Contacte con el Admin");
                 return;
             }
 

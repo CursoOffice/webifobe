@@ -38,9 +38,6 @@
      </style>
 </head>
 <body class="container mt-5">
-    <HEader>
-
-    </HEader>
     <h1 class="mb-4">Generador de Certificados IFOBE</h1>
     <div>
         <img src="img/logo aprobado IFOBE_b SIN FONDO.png" alt="Logo" class="img-fluid" style="max-width: 150px; margin-bottom: 20px;">
@@ -53,22 +50,30 @@
         <label>Cédula</label>
         <input type="text" id="cedula" class="form-control text-center" placeholder="Ingrese su cédula">
     </div>
-    <button class="btn btn-primary" onclick="generarCertificado()">Generar Certificado</button>
+    <button class="btn btn-primary" onclick="validarCedula()">Generar Certificado</button>
     <button class="btn btn-success" onclick="generarDoc()">Descargar en Word</button>
     <a href="C_Cotnia.html" class="btn btn-primary">Ir a Certificado Cotnia</a>
     
 
     <script>
+        // Cédulas válidas
+        const cedulasValidas = [
+            "30345198", "16053251", "1140421850", "32288885", "39212218",
+            "71932676", "22228977", "1128386111"
+        ];
+
+        // Función para validar la cédula
         function validarCedula() {
-            const cedulaValida = "1003080612";
             const cedulaIngresada = document.getElementById("cedula").value.trim();
             
-            if (cedulaIngresada === cedulaValida) {
+            if (cedulasValidas.includes(cedulaIngresada)) {
                 generarCertificado();
             } else {
-                alert("No tiene permisos para descargar el certificado.");
+                alert("No tiene permisos para descargar el certificado contacte con el Administrador.");
             }
         }
+
+        // Función para generar el certificado
         function generarCertificado() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({ format: "a4" });
@@ -90,7 +95,7 @@
             const director = "Juan Pérez";
             const logoUrl = "img/logo.png";
             const logoSuperior = "img/logo aprobado IFOBE_b SIN FONDO.png";
-            const resolucion = "Fecha de resolución naciona l7/23/2024 Numero de resolución nacional R2024031453";
+            const resolucion = "Fecha de resolución nacional 7/23/2024 Numero de resolución nacional R2024031453";
             const nit = "NIT: 901753803-7";
 
             const imgSuperior = new Image();
@@ -109,7 +114,7 @@
             img.src = logoUrl;
             img.onload = function () {
                 doc.setGState(new doc.GState({ opacity: 0.2 }));
-                doc.addImage(img, "logo aprobado IFOBE_b SIN FONDO.png", 50, 80, 110, 110, '', 'FAST');
+                doc.addImage(img, "PNG", 50, 80, 110, 110, '', 'FAST');
                 doc.setGState(new doc.GState({ opacity: 1 }));
                 generarTexto(doc, nombre, cedula, horas, fechaInicio, fechaFinalizacion, ciudad, dia, mes, anio, director, resolucion, nit);
             };
@@ -154,8 +159,6 @@
             const firmas = [
                 { src: "img/firma 1.png", x: 30, y: 230 },
                 { src: "img/firma 3.png", x: 100, y: 230 },
-                
-                
             ];
 
             let imagenesCargadas = 0;
@@ -178,7 +181,6 @@
                 };
             });
             doc.save(`Certificado_IFOBE_${nombre}.pdf`);
-           
         }
     </script>
 </body>
