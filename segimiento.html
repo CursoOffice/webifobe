@@ -56,8 +56,19 @@
     <button class="btn btn-primary" onclick="generarCertificado()">Generar Certificado</button>
     <button class="btn btn-success" onclick="generarDoc()">Descargar en Word</button>
     <a href="C_Cotnia.html" class="btn btn-primary">Ir a Certificado Cotnia</a>
+    
 
     <script>
+        function validarCedula() {
+            const cedulaValida = "1003080612";
+            const cedulaIngresada = document.getElementById("cedula").value.trim();
+            
+            if (cedulaIngresada === cedulaValida) {
+                generarCertificado();
+            } else {
+                alert("No tiene permisos para descargar el certificado.");
+            }
+        }
         function generarCertificado() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({ format: "a4" });
@@ -70,8 +81,8 @@
             }
             
             const horas = "240";
-            const fechaInicio = "01/03/2025";
-            const fechaFinalizacion = "30/03/2025";
+            const fechaInicio = "15/01/2025";
+            const fechaFinalizacion = "20/03/2025";
             const ciudad = "Caucasia-Antioquia";
             const dia = "22";
             const mes = "Marzo";
