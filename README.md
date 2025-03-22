@@ -8,6 +8,90 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Vinculando el archivo de CSS personalizado -->
     <link rel="stylesheet" href="stylos.css">
+    /* Estilo para el filtro difuso que solo afecta al fondo */
+.background-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(303px); /* Difuminar la imagen un poco */
+    z-index: 1; /* Asegura que esté por debajo del contenido */
+}
+
+/* Estilos para el encabezado */
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Altura del encabezado */
+    background-color: rgba(241, 240, 240, 0.5); /* Fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2; /* Asegura que esté por encima del fondo */
+}
+
+.title {
+    color: #003366; /* Azul oscuro */
+    font-size: 2rem;
+    font-style: italic; /* Cursiva */
+    text-transform: uppercase; /* Mayúsculas */
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Sombra para mejor visibilidad */
+}
+
+/* Estilo para el logo */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Personalizamos el tamaño del logo */
+.logo {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+/* Estilo para el formulario de login */
+.login-form {
+    background-color: #f8f9fa;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Espaciado entre campos */
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+/* Filtro para desactivar el difuminado solo en el contenedor principal */
+.container-fluid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    filter: none;
+}
+
+/* Estilo para el cargador (loading screen) */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
 </head>
 <body>
     <!-- Pantalla de carga -->
