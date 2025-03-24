@@ -12,6 +12,8 @@ body {
     background-attachment: fixed; /* La imagen se mantendrá fija mientras el contenido se desplaza */
 }
 
+
+
 /* Estilo para el filtro difuso que solo afecta al fondo */
 .background-blur {
     position: absolute;

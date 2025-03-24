@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #051a30;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('img/fonfo2\ \(1\).png'); /* Ruta de la imagen de fondo */
+             background-size: cover;
+            background-position: center;
+             background-attachment: fixed; /* La imagen se mantendrá fija mientras el contenido se desplaza */
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+        }
+        h2 {
+            color: #343a40;
+        }
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 alt="center" class="container">Plataforma Interna de Certificados IFOBE</h1>
+        <img src="img/logo aprobado IFOBE_b SIN FONDO.png" alt="center" class="container v4">
+        <h7>Al hacer uso de esta plataforma, usted acepta que sus datos serán tratados conforme a la Ley de Protección de Datos Personales. Sus datos no serán compartidos con terceros sin su consentimiento.</h3>
+    </div>
+    
+    <div class="container">
+        <h2 class="mb-4">Validador de Informacion</h2>
+        <div class="mb-3">
+            <label for="cedula" class="form-label">Ingrese su cédula del Estudiante:</label>
+            <input type="text" id="cedula" class="form-control" maxlength="10">
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del Estudiante:</label>
+            <input type="text" id="nombre" class="form-control" readonly>
+        </div>
+        <button class="btn btn-primary mb-3" onclick="validarCedula()">Validar</button>
+        <div class="mb-3">
+            <h1>Credenciales Docente</h1>
+        </div>
+        <div class="mb-3">
+            <label for="programa" class="form-label">Nombre del Programa:</label>
+            <input type="text" id="programa" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="clave" class="form-label">Ingrese la contraseña*:</label>
+            <input type="password" id="clave" class="form-control">
+        </div>
+        
+        <button class="btn btn-success" onclick="generarDiploma()">Generar Diploma</button>
+        <button class="btn btn-danger mt-3" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </div>
+    
+    <script>
+        function cerrarSesion() {
+            window.location.href = 'indexcertificado.html'; // Redirigir a la página de inicio de sesión
+        }
+    </script>
+    </div>
+    <!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmacionModalLabel">Confirmación de Datos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nombre del Estudiante:</strong> <span id="confNombre"></span></p>
+                <p><strong>Cédula:</strong> <span id="confCedula"></span></p>
+                <p><strong>Programa:</strong> <span id="confPrograma"></span></p>
+                <p>¿Está seguro de que desea generar el diploma con estos datos?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="confirmarGeneracion()">Sí, Generar</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+    <script>
+        function validarCedula() {
+            let cedula = document.getElementById("cedula").value;
+            let datosUsuarios = {
+                "16053251": "Álvarez Armando José",
+                "32288072": "Alvarez Orosco Cesar Augusto",
+                "7523962": "Borja Ramirez Manuel Antonio"
+            };
+            if (!datosUsuarios[cedula]) {
+                alert("Cédula no encontrada en la base de datos.");
+                return false;
+            }
+            document.getElementById("nombre").value = datosUsuarios[cedula];
+            alert("Cédula válida. Nombre asignado automáticamente.");
+            return true;
+        }
+
+        function generarDiploma() {
+            let cedula = document.getElementById("cedula").value;
+            let nombre = document.getElementById("nombre").value;
+            let clave = document.getElementById("clave").value;
+            let programa = document.getElementById("programa").value;
+
+            if (!nombre) {
+                alert("Por favor, valide la cédula primero.");
+                return;
+            }
+            if (clave !== "Admin2024") {
+                alert("Contraseña incorrecta.");
+                return;
+            }
+            if (!programa) {
+                alert("Ingrese el nombre del programa.");
+                return;
+            }
+            let confirmacion = confirm(`¿Está seguro de generar el diploma para ${nombre}?`);
+            if (!confirmacion) return;
+            let fecha = new Date();
+            let dia = fecha.getDate();
+            let mes = fecha.toLocaleString('es-ES', { month: 'long' });
+            let anio = fecha.getFullYear();
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: "landscape" });
+
+            let img = new Image();
+            img.src = "img/Certificado de Reconocimiento Simple Azul y Amarillo.png"; // Imagen de fondo del diploma
+
+            img.onload = function () {
+                doc.addImage(img, "JPEG", 0, 0, 297, 210);
+
+                // Títulos
+                doc.setFont("times", "bold");
+                doc.setFontSize(22);
+                doc.text("INSTITUTO DE FORMACIÓN IFOBE", 148, 35, { align: "center" });
+
+                doc.setFontSize(14);
+                doc.text("NIT. 901753803-7 | CÓDIGO 8065 APOYO A LA EDUCACIÓN", 148, 45, { align: "center" });
+                doc.text("Régimen de ley 115 de 1994 | Resolución 7/23/2024", 148, 52, { align: "center" });
+                doc.text("Número de resolución nacional: R2024031453", 148, 60, { align: "center" });
+
+                doc.setFontSize(18);
+                doc.text("OTORGADO A CONSTANCIA DE ASISTENCIA A:", 148, 75, { align: "center" });
+
+                doc.setFontSize(24);
+                doc.text(nombre, 148, 95, { align: "center" });
+
+                doc.setFontSize(16);
+                doc.text(`Cédula: ${cedula}`, 148, 110, { align: "center" });
+
+                doc.text(`Por haber culminado el curso especializado en: ${programa}`, 148, 125, { align: "center" });
+
+                doc.setFontSize(12);
+                let texto = "El presente certificado acredita la participación y aprobación del estudiante en el curso, validando las competencias adquiridas en la materia. Este documento tiene validez oficial y respalda los conocimientos y habilidades desarrolladas, sirviendo como reconocimiento de su formación en el área correspondiente.";
+                let lineas = doc.splitTextToSize(texto, 250);
+                doc.text(lineas, 148, 140, { align: "center" });
+
+                doc.text(`Otorgado en Ciudad, a los ${dia} días del mes de ${mes} del año ${anio} con una intensidad horaria de 40 .`, 148, 165, { align: "center" });
+
+                // Firmas
+                doc.setFontSize(14);
+                doc.setFont("times", "italic");
+                doc.text("_________________________", 70, 175, { align: "center" });
+                doc.text("Armando Álvarez", 70, 185, { align: "center" });
+                doc.text("Director de Administración", 70, 195, { align: "center" });
+
+                doc.text("_________________________", 220, 175, { align: "center" });
+                doc.text("César Augusto", 220, 185, { align: "center" });
+                doc.text("Coordinador Académico", 220, 195, { align: "center" });
+
+                // Descarga el PDF
+                doc.save(`Certificado_Constacia_ifobe${nombre}.pdf`);
+            };
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

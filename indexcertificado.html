@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Carga y Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos para la pantalla de carga */
+        #preloader {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            background-image: url('img/fonfo2\ \(1\).png'); /* Ruta de la imagen de fondo */
+             background-size: cover;
+            background-position: center;
+             background-attachment: fixed; /* La imagen se mantendrá fija mientras el contenido se desplaza */
+        
+        }
+        #preloader img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            width: 50%;
+            height: 10px;
+        }
+        /* Ocultar login hasta que termine la carga */
+        #login-container {
+            display: none;
+        }
+        /* Diseño del login */
+        .login-box {
+            max-width: 410px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        /* Fondo difuminado */
+        /*color de header*/
+        .header{
+        background-position: center;
+        position: relative;
+        position:"center";
+        text-align: center;
+        background-color: blue;
+     
+        background-attachment: fixed;
+               
+        }
+        /*Color de Texto*/
+        .text{
+         color: #f8f9fa;
+         text-transform: capitalize;
+
+        }
+        #login-container {
+            position: relative;
+            z-index: 1;
+            background-image: url('img/fonfo2\ \(1\).png'); /* Ruta de la imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* La imagen se mantendrá fija mientras el contenido se desplaza */
+        
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla de Carga -->
+    <div id="preloader">
+        <img src="img/logo aprobado IFOBE_b SIN FONDO.png" alt="Logo">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%"></div>
+        </div>
+    </div>
+    <header class="header">
+        <nav>
+            <h1 class="text">Instituto de Formacion IFOBE - Seccional Bajo Cauca</h1>
+        </nav>
+    </header>
+    <!-- Contenedor de Login -->
+    <div id="login-container" class="d-flex justify-content-center align-items-center vh-100">
+        
+        <div class="login-box">
+            <h2>Iniciar Sesión</h2>
+            <form onsubmit="return validarLogin(event)">
+                <div class="mb-3">
+                    <label class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="usuario" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="contrasena" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                <p id="error-msg" class="text-danger mt-3" style="display: none;">Credenciales incorrectas</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de carga con barra de progreso
+        let progress = 0;
+        let progressBar = document.querySelector(".progress-bar");
+
+        function cargar() {
+            if (progress < 100) {
+                progress += 10;
+                progressBar.style.width = progress + "%";
+                setTimeout(cargar, 300);
+            } else {
+                document.getElementById("preloader").style.display = "none";
+                document.getElementById("login-container").style.display = "flex";
+            }
+        }
+
+        window.onload = function () {
+            cargar();
+        };
+
+        function validarLogin(event) {
+            event.preventDefault();
+            const usuario = document.getElementById("usuario").value;
+            const contrasena = document.getElementById("contrasena").value;
+            
+            if ((usuario === "admin" && contrasena === "Admin2024") ||
+                (usuario === "docente" && contrasena === "Docente2024")) {
+                alert("Bienvenido, " + usuario);
+                window.location.href = "Plataforma Certificado.html"; // Redirige a la página principal
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
